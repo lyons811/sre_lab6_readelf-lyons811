@@ -11,24 +11,32 @@
 ###############################################################################
 
 
-
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c11 -g
 
+
 all: readelf_h readelf_s
+
 
 readelf_h: main_readelf_h.o elf_parser.o
 	$(CC) $(CFLAGS) -o readelf_h main_readelf_h.o elf_parser.o
 
+
 readelf_s: main_readelf_s.o elf_parser.o
 	$(CC) $(CFLAGS) -o readelf_s main_readelf_s.o elf_parser.o
+
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
+
 clean:
 	rm -f *.o readelf_h readelf_s
 
+
+.PHONY: all clean test
+
+
 test: all
-	./readelf_h some_executable
-	./readelf_s some_executable
+	./readelf_h /bin/ls
+	./readelf_s /bin/ls
